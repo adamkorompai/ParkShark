@@ -2,6 +2,8 @@ package com.switchfully.parkshark.domain.user;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 public class User {
@@ -29,5 +31,7 @@ public class User {
     @Column(name = "role")
     private UserRole role;
 
-    
+    @Column(name = "registration_date", columnDefinition = "TIMESTAMP")
+    private LocalDateTime registrationDate;
+
 }
