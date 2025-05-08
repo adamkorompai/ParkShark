@@ -11,7 +11,7 @@ public class MembershipLevel {
 
     @Id
     @Column(name = "name")
-    private String name;
+    private MembershipType name;
 
     @Column(name = "monthly_cost")
     private double monthlyCost;
@@ -25,14 +25,14 @@ public class MembershipLevel {
     public MembershipLevel() {
     }
 
-    public MembershipLevel(String name, double monthlyCost, int reductionPercent, int maxParkingDuration) {
+    public MembershipLevel(MembershipType name, double monthlyCost, int reductionPercent, int maxParkingDuration) {
         this.name = name;
         this.monthlyCost = monthlyCost;
         this.reductionPercent = reductionPercent;
         this.maxParkingDuration = maxParkingDuration;
     }
 
-    public String getName() {
+    public MembershipType getName() {
         return name;
     }
 
