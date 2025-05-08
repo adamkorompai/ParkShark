@@ -53,13 +53,13 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, UserRole role, LocalDateTime registrationDate, LicensePlate licensePlate, MembershipLevel membershipLevel) {
+    public User(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, LocalDateTime registrationDate, LicensePlate licensePlate, MembershipLevel membershipLevel) {
+        this.role = UserRole.MEMBER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.telephoneNumber = telephoneNumber;
         this.mobileNumber = mobileNumber;
-        this.role = role;
         this.registrationDate = registrationDate;
         this.licensePlate = licensePlate;
         this.membershipLevel = membershipLevel;
