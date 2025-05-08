@@ -24,6 +24,12 @@ public class Address {
 
     public Address() {}
 
+    public Address(String streetName, String streetNumber, PostalCode postalCode) {
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.postalCode = postalCode;
+    }
+
     public Long getId() {
         return id;
     }
