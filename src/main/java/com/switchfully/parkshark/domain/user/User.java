@@ -54,7 +54,7 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, LocalDateTime registrationDate, LicensePlate licensePlate, MembershipLevel membershipLevel) {
+    public User(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, LocalDateTime registrationDate, Address address, LicensePlate licensePlate, MembershipLevel membershipLevel) {
         this.role = UserRole.MEMBER;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -62,6 +62,7 @@ public class User {
         this.telephoneNumber = telephoneNumber;
         this.mobileNumber = mobileNumber;
         this.registrationDate = registrationDate;
+        this.address = address;
         this.licensePlate = licensePlate;
         this.membershipLevel = membershipLevel;
     }
@@ -96,6 +97,10 @@ public class User {
 
     public LocalDateTime getRegistrationDate() {
         return registrationDate;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public LicensePlate getLicensePlate() {

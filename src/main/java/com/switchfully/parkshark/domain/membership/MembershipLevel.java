@@ -2,8 +2,10 @@ package com.switchfully.parkshark.domain.membership;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
-@Table(name = "membership_level")
+@Table(name = "membership_leveL")
 public class MembershipLevel {
 
     @Id
@@ -11,7 +13,7 @@ public class MembershipLevel {
     @Column(name = "name", length = 50)
     private MembershipType name;
 
-    @Column(name = "monthly_cost")
+    @Column(name = "monthly_cost", nullable = false)
     private double monthlyCost;
 
     @Column(name = "reduction_percent")
@@ -61,5 +63,17 @@ public class MembershipLevel {
     @Override
     public String toString() {
         return "Membership " + name + ", " + monthlyCost + "/month";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MembershipLevel that = (MembershipLevel) o;
+        return name == that.name;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(name);
     }
 }
