@@ -15,13 +15,19 @@ public class MembershipLevelRepositoryTest {
     private MembershipLevelRepository membershipLevelRepository;
 
     @Test
-    void saveAndFindMembershipLevelById() {
-        membershipLevelRepository.save(new MembershipLevel(MembershipType.SILVER, 10, 20, 6));
+    void findAndOverwriteMembershipLevelById() {
+        MembershipLevel existing = membershipLevelRepository.findById(MembershipType.BRONZE).orElseThrow();
 
-        MembershipLevel found = membershipLevelRepository.findById(MembershipType.SILVER).orElseThrow();
+        existing.setMonthlyCost(99);
+        existing.setReductionPercent(99);
+        existing.setMaxParkingDuration(99);
 
-        assertThat(found.getMonthlyCost()).isEqualTo(10.0);
-        assertThat(found.getReductionPercent()).isEqualTo(20);
-        assertThat(found.getMaxParkingDuration()).isEqualTo(6);
+        membershipLevelRepository.save(existing);
+
+        MembershipLevel found = membershipLevelRepository.findById(MembershipType.BRONZE).orElseThrow();
+
+        assertThat(found.getMonthlyCost()).isEqualTo(99);
+        assertThat(found.getReductionPercent()).isEqualTo(99);
+        assertThat(found.getMaxParkingDuration()).isEqualTo(99);
     }
 }

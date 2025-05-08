@@ -46,6 +46,18 @@ public class MembershipLevel {
         return maxParkingDuration;
     }
 
+    public void setMonthlyCost(double monthlyCost) {
+        this.monthlyCost = monthlyCost;
+    }
+
+    public void setReductionPercent(int reductionPercent) {
+        this.reductionPercent = reductionPercent;
+    }
+
+    public void setMaxParkingDuration(int maxParkingDuration) {
+        this.maxParkingDuration = maxParkingDuration;
+    }
+
     @Override
     public String toString() {
         return "Membership " + name + ", " + monthlyCost + "/month";
