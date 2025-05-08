@@ -48,25 +48,38 @@ public class UserService {
     public UserDTO registerMember(CreateUserDTO dto) {
         validateCreateUserDTO(dto);
 
-        PostalCode postalCode = postalCodeRepository.getPostalCodeByCode(dto.getPostalCode())
-                .orElseGet(() -> postalCodeRepository.save(new PostalCode(dto.getPostalCode(), dto.getCity())));
+        Address address = registerAddress(dto);
 
-        Address address = new Address(dto.getStreetName(), dto.getStreetNumber(), postalCode);
-        addressRepository.save(address);
+        LicensePlate licensePlate = registerLicensePlate(dto);
 
-        CountryCode countryCode = countryCodeRepository.findByCode(dto.getCountryCode())
-                .orElseGet(() -> countryCodeRepository.save(new CountryCode(dto.getCountryCode(), dto.getCountryName())));
-
-        LicensePlate licensePlate = new LicensePlate(dto.getPlateNumber(), countryCode);
-        licensePlateRepository.save(licensePlate);
-
-        MembershipLevel membershipLevel = membershipLevelRepository.findById(MembershipType.valueOf(dto.getMembershipLevel().toUpperCase()))
-                .orElseThrow(() -> new IllegalArgumentException("Invalid membership level: " + dto.getMembershipLevel()));
+        MembershipLevel membershipLevel = findMembershipLevel(dto);
 
         User user = userMapper.fromCreateUserDTO(dto, address, licensePlate, membershipLevel);
         userRepository.save(user);
 
         return userMapper.toUserDTO(user);
+    }
+
+    private Address registerAddress(CreateUserDTO dto) {
+        PostalCode postalCode = postalCodeRepository.getPostalCodeByCode(dto.getPostalCode())
+                .orElseGet(() -> postalCodeRepository.save(new PostalCode(dto.getPostalCode(), dto.getCity())));
+
+        Address address = new Address(dto.getStreetName(), dto.getStreetNumber(), postalCode);
+        addressRepository.save(address);
+        return address;
+    }
+
+    private LicensePlate registerLicensePlate(CreateUserDTO dto) {
+        CountryCode countryCode = countryCodeRepository.findByCode(dto.getCountryCode())
+                .orElseGet(() -> countryCodeRepository.save(new CountryCode(dto.getCountryCode(), dto.getCountryName())));
+
+        LicensePlate licensePlate = new LicensePlate(dto.getPlateNumber(), countryCode);
+        licensePlateRepository.save(licensePlate);
+        return licensePlate;
+    }
+    private MembershipLevel findMembershipLevel(CreateUserDTO dto) {
+        return membershipLevelRepository.findById(MembershipType.valueOf(dto.getMembershipLevel().toUpperCase()))
+                .orElseThrow(() -> new IllegalArgumentException("Invalid membership level: " + dto.getMembershipLevel()));
     }
 
     private void validateCreateUserDTO(CreateUserDTO dto) {
