@@ -7,7 +7,7 @@ CREATE TABLE division (
                           name VARCHAR(255) NOT NULL,
                           original_name VARCHAR(255) NOT NULL,
                           director VARCHAR(255) NOT NULL,
-                          parent_division_id BIGINT NOT NULL,
+                          parent_division_id BIGINT,
                           CONSTRAINT fk_parent_division
                               FOREIGN KEY (parent_division_id)
                                   REFERENCES division (id)
