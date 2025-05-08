@@ -1,5 +1,6 @@
 package com.switchfully.parkshark.domain.user;
 
+import com.switchfully.parkshark.domain.Address;
 import com.switchfully.parkshark.domain.license_plate.LicensePlate;
 import com.switchfully.parkshark.domain.membership.MembershipLevel;
 import jakarta.persistence.*;
@@ -38,9 +39,9 @@ public class User {
     @Column(name = "registration_date", columnDefinition = "TIMESTAMP")
     private LocalDateTime registrationDate;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "address_id", referencedColumn = "id")
-//    private Address address;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "plate_number", referencedColumnName = "plate_number")

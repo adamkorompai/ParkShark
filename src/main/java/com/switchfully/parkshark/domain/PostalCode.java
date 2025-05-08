@@ -24,7 +24,9 @@ public class PostalCode {
         return id;
     }
 
-
+    public Long getId() {
+        return id;
+    }
 
     public String getCode() {
         return code;

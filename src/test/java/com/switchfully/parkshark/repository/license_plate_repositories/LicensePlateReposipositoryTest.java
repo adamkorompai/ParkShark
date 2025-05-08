@@ -25,12 +25,12 @@ public class LicensePlateReposipositoryTest {
     }
 
     @Test
-    void saveLicensePlate() {
+    void saveLicensePlateAndFindById() {
         CountryCode italy = countryCodeRepository.findById("IT").orElseThrow();
         licensePlateRepository.save(new LicensePlate("1-ELF-456", italy));
 
-        LicensePlate retrieved = licensePlateRepository.findById("1-ELF-456").orElseThrow();
-        assertEquals("IT", retrieved.getCountryCode().getCode());
+        LicensePlate found = licensePlateRepository.findById("1-ELF-456").orElseThrow();
+        assertEquals("IT", found.getCountryCode().getCode());
     }
 
     @Test
