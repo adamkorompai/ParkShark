@@ -8,15 +8,15 @@ public class ParkingLot {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postal_code_seq")
-    @SequenceGenerator(name = "postal_code_seq", sequenceName = "postal_code_seq", allocationSize = 1)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "parking_lot_seq")
+    @SequenceGenerator(name = "parking_lot_seq", sequenceName = "parking_lot_seq", allocationSize = 1)
+    private Long id;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "category")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private ParkingCategory category;
 
     @Column(name = "capacity")
@@ -29,10 +29,10 @@ public class ParkingLot {
     @JoinColumn(name = "address_id")
     private Address address;
 
-    //TODO 1 : Add the relation between the contact id and parking lot in the database
-//    @ManyToOne
-//    @JoinColumn(name="contact_person_id")
-//    private Contact contact;
+
+    @ManyToOne
+    @JoinColumn(name="contact_person_id")
+    private Contact contact;
 
     //TODO 2 : Add the division in the domain package as a java class
 //    @ManyToOne
@@ -41,6 +41,10 @@ public class ParkingLot {
 
 
     public ParkingLot() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Address getAddress() {
@@ -81,5 +85,8 @@ public class ParkingLot {
 
     public void setName(String name) {
         this.name = name;
+    }
+    public String getContactEmail(){
+        return contact.getEmail();
     }
 }

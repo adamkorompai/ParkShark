@@ -10,7 +10,7 @@ public class PostalCode {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "postal_code_seq")
     @SequenceGenerator(name = "postal_code_seq", sequenceName = "postal_code_seq", allocationSize = 1)
-    private int postalCode;
+    private Long id;
 
     @Column(name = "code")
     private String code;
@@ -20,8 +20,8 @@ public class PostalCode {
 
     public PostalCode(){}
 
-    public int getPostalCode() {
-        return postalCode;
+    public Long getPostalCode() {
+        return id;
     }
 
 
