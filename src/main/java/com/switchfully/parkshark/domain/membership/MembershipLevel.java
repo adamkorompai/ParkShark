@@ -1,16 +1,14 @@
 package com.switchfully.parkshark.domain.membership;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "membership_level")
 public class MembershipLevel {
 
     @Id
-    @Column(name = "name")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name", length = 50)
     private MembershipType name;
 
     @Column(name = "monthly_cost")
