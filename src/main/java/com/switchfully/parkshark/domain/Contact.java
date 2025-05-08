@@ -29,6 +29,14 @@ public class Contact {
 
     public Contact() {}
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Address getAddress() {
         return address;
     }

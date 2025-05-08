@@ -31,7 +31,7 @@ public class ParkingLot {
 
 
     @ManyToOne
-    @JoinColumn(name="contact_person_id")
+    @JoinColumn(name = "contact_person_id")
     private Contact contact;
 
     //TODO 2 : Add the division in the domain package as a java class
@@ -86,7 +86,21 @@ public class ParkingLot {
     public void setName(String name) {
         this.name = name;
     }
-    public String getContactEmail(){
+
+    public String getContactEmail() {
         return contact.getEmail();
     }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    public Address getContactAddress() {
+        return contact.getAddress();
+    }
+
 }

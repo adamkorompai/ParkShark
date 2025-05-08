@@ -1,6 +1,7 @@
 package com.switchfully.parkshark.api;
 
 import com.switchfully.parkshark.domain.ParkingLot;
+import com.switchfully.parkshark.domain.dtos.CreateParkingLotDto;
 import com.switchfully.parkshark.domain.dtos.ParkingLotDto;
 import com.switchfully.parkshark.service.ParkingLotService;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class ParkingLotController {
     //TODO 1 : As a Manager
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ParkingLot createParkingLot(@RequestBody ParkingLot parkingLot) {
+    public ParkingLot createParkingLot(@RequestBody CreateParkingLotDto parkingLot) {
         return service.createParkingLot(parkingLot);
     }
 
@@ -32,7 +33,7 @@ public class ParkingLotController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ParkingLot getParkingLotById(@PathVariable int id) {
+    public ParkingLot getParkingLotById(@PathVariable Long id) {
         return service.getParkingLot(id);
     }
 }
