@@ -55,8 +55,12 @@ CREATE TABLE parking_lot (
                              category VARCHAR(50) NOT NULL CHECK (category IN ('UNDERGROUND', 'ABOVE_GROUND')),
                              capacity INTEGER NOT NULL,
                              price_per_hour DECIMAL(10, 2) NOT NULL,
+                             contact_person_id BIGINT NOT NULL,
                              address_id BIGINT NOT NULL,
-                             division_id BIGINT NOT NULL,
+                             division_id BIGINT,
+                             CONSTRAINT fk_contact_person_id
+                                 FOREIGN KEY (contact_person_id)
+                                     REFERENCES contact(id),
                              CONSTRAINT fk_parking_lot_address
                                  FOREIGN KEY (address_id)
                                      REFERENCES address(id),
