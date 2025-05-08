@@ -19,9 +19,6 @@ public class CreateUserDTO {
     private String mobileNumber;
 
     @NotBlank
-    private Long addressId;
-
-    @NotBlank
     private String plateNumber;
 
     @NotBlank
@@ -48,13 +45,12 @@ public class CreateUserDTO {
     public CreateUserDTO() {
     }
 
-    public CreateUserDTO(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, Long addressId, String plateNumber, String membershipLevel, String streetName, String streetNumber, String postalCode, String city, String countryCode, String countryName) {
+    public CreateUserDTO(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, String plateNumber, String membershipLevel, String streetName, String streetNumber, String postalCode, String city, String countryCode, String countryName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.telephoneNumber = telephoneNumber;
         this.mobileNumber = mobileNumber;
-        this.addressId = addressId;
         this.plateNumber = plateNumber;
         this.membershipLevel = membershipLevel;
         this.streetName = streetName;
@@ -83,10 +79,6 @@ public class CreateUserDTO {
 
     public String getMobileNumber() {
         return mobileNumber;
-    }
-
-    public Long getAddressId() {
-        return addressId;
     }
 
     public String getPlateNumber() {

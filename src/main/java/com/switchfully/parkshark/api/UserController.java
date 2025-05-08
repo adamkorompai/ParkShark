@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(name = "/users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
