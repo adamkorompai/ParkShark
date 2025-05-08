@@ -27,10 +27,28 @@ public class CreateUserDTO {
     @NotBlank
     private String membershipLevel;
 
+    @NotBlank
+    private String streetName;
+
+    @NotBlank
+    private String streetNumber;
+
+    @NotBlank
+    private String postalCode;
+
+    @NotBlank
+    private String city;
+
+    @NotBlank
+    private String countryCode;
+
+    @NotBlank
+    private String countryName;
+
     public CreateUserDTO() {
     }
 
-    public CreateUserDTO(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, Long addressId, String plateNumber, String membershipLevel) {
+    public CreateUserDTO(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, Long addressId, String plateNumber, String membershipLevel, String streetName, String streetNumber, String postalCode, String city, String countryCode, String countryName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -39,6 +57,12 @@ public class CreateUserDTO {
         this.addressId = addressId;
         this.plateNumber = plateNumber;
         this.membershipLevel = membershipLevel;
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.postalCode = postalCode;
+        this.city = city;
+        this.countryCode = countryCode;
+        this.countryName = countryName;
     }
 
     public String getFirstName() {
@@ -71,5 +95,29 @@ public class CreateUserDTO {
 
     public String getMembershipLevel() {
         return membershipLevel;
+    }
+
+    public String getStreetName() {
+        return streetName;
+    }
+
+    public String getStreetNumber() {
+        return streetNumber;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public String getCountryName() {
+        return countryName;
     }
 }

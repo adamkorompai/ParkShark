@@ -6,9 +6,11 @@ import com.switchfully.parkshark.domain.dtos.UserDTO;
 import com.switchfully.parkshark.domain.license_plate.LicensePlate;
 import com.switchfully.parkshark.domain.membership.MembershipLevel;
 import com.switchfully.parkshark.domain.user.User;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 
+@Component
 public class UserMapper {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -27,7 +29,7 @@ public class UserMapper {
         );
     }
 
-    public User fromCreteUserDTO(CreateUserDTO dto, Address address, LicensePlate licensePlate, MembershipLevel membershipLevel) {
+    public User fromCreateUserDTO(CreateUserDTO dto, Address address, LicensePlate licensePlate, MembershipLevel membershipLevel) {
         return new User(
                 dto.getFirstName(),
                 dto.getLastName(),
