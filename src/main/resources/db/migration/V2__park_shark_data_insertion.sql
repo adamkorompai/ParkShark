@@ -42,10 +42,10 @@ INSERT INTO contact (id, name, email, phone_number, telephone_number, address_id
     (NEXTVAL('contact_seq'), 'Bob Martin', 'bob@example.com', NULL, '+33123456789', 2);
 
 -- Parking Lots
-INSERT INTO parking_lot (id, name, category, capacity, price_per_hour, address_id, division_id) VALUES
-    (NEXTVAL('parking_lot_seq'), 'Central Brussels Parking', 'UNDERGROUND', 200, 2.50, 4, 2),
-    (NEXTVAL('parking_lot_seq'), 'Paris East Parking', 'ABOVE_GROUND', 100, 1.50, 2, 3),
-    (NEXTVAL('parking_lot_seq'), 'Berlin Mitte Garage', 'UNDERGROUND', 150, 2.00, 3, 4);
+INSERT INTO parking_lot (id, name, category, capacity, price_per_hour, contact_person_id, address_id, division_id) VALUES
+    (NEXTVAL('parking_lot_seq'), 'Central Brussels Parking', 'UNDERGROUND', 200, 2.50, 1, 4, 2),
+    (NEXTVAL('parking_lot_seq'), 'Paris East Parking', 'ABOVE_GROUND', 100, 1.50, 2, 2, 3),
+    (NEXTVAL('parking_lot_seq'), 'Berlin Mitte Garage', 'UNDERGROUND', 150, 2.00, 1, 3, 4);
 
 -- Users
 INSERT INTO users (id, first_name, last_name, telephone_number, mobile_number, email, role, registration_date, address_id, plate_number, membership_level) VALUES
