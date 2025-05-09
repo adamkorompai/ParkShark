@@ -12,6 +12,34 @@ public class MemberOverviewDTO {
     private String emailAddress;
     private LocalDateTime registrationDate;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getFistName() {
+        return fistName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getLicensePlateNumber() {
+        return licensePlateNumber;
+    }
+
+    public String getTelephoneNumber() {
+        return telephoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public LocalDateTime getRegistrationDate() {
+        return registrationDate;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
