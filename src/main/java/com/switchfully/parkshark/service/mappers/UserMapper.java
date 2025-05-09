@@ -23,9 +23,9 @@ public class UserMapper {
                 user.getEmail(),
                 user.getTelephoneNumber(),
                 user.getMobileNumber(),
-                user.getMembershipLevel().getName().name(),
+                user.getRegistrationDate().format(FORMATTER),
                 user.getLicensePlate().getPlateNumber(),
-                user.getRegistrationDate().format(FORMATTER)
+                user.getMembershipLevel().getName().name()
         );
     }
 
