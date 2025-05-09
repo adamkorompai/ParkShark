@@ -3,6 +3,7 @@ package com.switchfully.parkshark.service;
 import com.switchfully.parkshark.domain.Address;
 import com.switchfully.parkshark.domain.PostalCode;
 import com.switchfully.parkshark.domain.dtos.CreateUserDTO;
+import com.switchfully.parkshark.domain.dtos.MemberOverviewDTO;
 import com.switchfully.parkshark.domain.dtos.UserDTO;
 import com.switchfully.parkshark.domain.license_plate.CountryCode;
 import com.switchfully.parkshark.domain.license_plate.LicensePlate;
@@ -16,7 +17,11 @@ import com.switchfully.parkshark.repository.license_plate_repositories.LicensePl
 import com.switchfully.parkshark.repository.user_repositories.MembershipLevelRepository;
 import com.switchfully.parkshark.repository.user_repositories.UserRepository;
 import com.switchfully.parkshark.service.mappers.UserMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -43,6 +48,19 @@ public class UserService {
         this.licensePlateRepository = licensePlateRepository;
         this.membershipLevelRepository = membershipLevelRepository;
         this.userMapper = userMapper;
+    }
+
+    public List<MemberOverviewDTO> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(userMapper::toMemberOverviewDTO)
+                .collect(Collectors.toList());
+    }
+
+    public UserDTO getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID " + id + " not found"));
+        return userMapper.toUserDTO(user);
     }
 
     public UserDTO registerMember(CreateUserDTO dto) {

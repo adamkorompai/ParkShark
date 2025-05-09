@@ -2,6 +2,7 @@ package com.switchfully.parkshark.service.mappers;
 
 import com.switchfully.parkshark.domain.Address;
 import com.switchfully.parkshark.domain.dtos.CreateUserDTO;
+import com.switchfully.parkshark.domain.dtos.MemberOverviewDTO;
 import com.switchfully.parkshark.domain.dtos.UserDTO;
 import com.switchfully.parkshark.domain.license_plate.LicensePlate;
 import com.switchfully.parkshark.domain.membership.MembershipLevel;
@@ -40,5 +41,17 @@ public class UserMapper {
                 licensePlate,
                 membershipLevel
         );
+    }
+
+    public MemberOverviewDTO toMemberOverviewDTO(User user) {
+        MemberOverviewDTO dto = new MemberOverviewDTO();
+        dto.setId(user.getId());
+        dto.setFistName(user.getFirstName());
+        dto.setLastName(user.getLastName());
+        dto.setLicensePlateNumber(user.getLicensePlate().getPlateNumber());
+        dto.setTelephoneNumber(user.getTelephoneNumber());
+        dto.setEmailAddress(user.getEmail());
+        dto.setRegistrationDate(user.getRegistrationDate());
+        return dto;
     }
 }
