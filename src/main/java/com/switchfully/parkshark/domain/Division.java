@@ -26,5 +26,50 @@ public class Division {
 
     public Division() {}
 
-    public Division(String name, String originalName, String director) {}
+    public Division(String name, String originalName, String director, Division parentDivision) {
+        this.name = name;
+        this.originalName = originalName;
+        this.director = director;
+        this.parentDivision = parentDivision;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public String getDirector() {
+        return director;
+    }
+
+    public Division getParentDivision() {
+        return parentDivision;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setParentDivision(Division parentDivision) {
+        this.parentDivision = parentDivision;
+    }
 }
