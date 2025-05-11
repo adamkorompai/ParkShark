@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Base64;
+import java.util.Optional;
 
 @Service
 public class AuthenticationService {
@@ -39,16 +40,17 @@ public class AuthenticationService {
         return decodedArray;
     }
 
-//    public User authenticate(String authHeader) {
-//        String[] decodedArray = decode(authHeader);
-//        String email = decodedArray[0];
-//        String password = decodedArray[1];
-//
-//        User user = userRepository.getByEmail(email);
-//
-//        if (user == null || !user.getPassword().equals(password)) {
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
-//        }
-//        return user;
-//    }
+    public User authenticate(String authHeader) {
+        String[] decodedArray = decode(authHeader);
+        String email = decodedArray[0];
+        String password = decodedArray[1];
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password"));
+
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
+        }
+        return user;
+    }
 }

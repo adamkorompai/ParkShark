@@ -27,6 +27,8 @@ public class User {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
+    private String password;
+
     @Column(name = "telephone_number", length = 50)
     private String telephoneNumber;
 
@@ -82,6 +84,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getTelephoneNumber() {

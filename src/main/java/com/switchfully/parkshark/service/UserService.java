@@ -63,6 +63,11 @@ public class UserService {
         return userMapper.toUserDTO(user);
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
+    }
+
     public UserDTO registerMember(CreateUserDTO dto) {
         validateCreateUserDTO(dto);
 
