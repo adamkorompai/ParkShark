@@ -71,6 +71,7 @@ public class UserRepositoryTest {
                 "a@b.co",
                 null,
                 "0478329293",
+                "password",
                 address,
                 licensePlate,
                 membershipLevel
