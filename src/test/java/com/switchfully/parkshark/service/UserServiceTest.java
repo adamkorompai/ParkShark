@@ -2,6 +2,7 @@ package com.switchfully.parkshark.service;
 
 import com.switchfully.parkshark.domain.Address;
 import com.switchfully.parkshark.domain.PostalCode;
+import com.switchfully.parkshark.domain.dtos.CreateUserDTO;
 import com.switchfully.parkshark.domain.dtos.MemberOverviewDTO;
 import com.switchfully.parkshark.domain.dtos.UserDTO;
 import com.switchfully.parkshark.domain.license_plate.CountryCode;
@@ -150,5 +151,55 @@ public class UserServiceTest {
         assertThat(result.getMobileNumber()).isEqualTo("0478329293");
         assertThat(result.getLicensePlate()).isEqualTo("1-ELF-456");
         assertThat(result.getMembershipLevel()).isEqualTo("SILVER");
+    }
+
+    @Test
+    void givenValidInput_whenRegisterUser_thenReturnsUserDTO() {
+        CreateUserDTO dto = new CreateUserDTO(
+                "a",
+                "b",
+                "a@b.co",
+                "password",
+                null,
+                "0478329293",
+                "1-ELF-456",
+                "SILVER",
+                "Rue Bazar",
+                "34",
+                "1040",
+                "Brussels",
+                "BE",
+                "Belgium"
+        );
+
+        PostalCode postalCode = new PostalCode("1040", "Brussels");
+        when(postalCodeRepository.getPostalCodeByCode("1040")).thenReturn(Optional.of(postalCode));
+
+        CountryCode countryCode = new CountryCode("BE", "Belgium");
+        when(countryCodeRepository.findByCode("BE")).thenReturn(Optional.of(countryCode));
+
+        MembershipLevel membershipLevel = new MembershipLevel(MembershipType.SILVER, 10, 20, 6);
+        when(membershipLevelRepository.findById(MembershipType.SILVER)).thenReturn(Optional.of(membershipLevel));
+
+        when(userRepository.findAll()).thenReturn(List.of());
+
+        when(userRepository.save(any(User.class))).thenAnswer(invocation -> {
+            User savedUser = invocation.getArgument(0);
+            savedUser.setId(1L);
+            return savedUser;
+        });
+
+        UserDTO result = userService.registerMember(dto);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo(1L);
+        assertThat(result.getFirstName()).isEqualTo("a");
+        assertThat(result.getLastName()).isEqualTo("b");
+        assertThat(result.getEmail()).isEqualTo("a@b.co");
+        assertThat(result.getMobileNumber()).isEqualTo("0478329293");
+        assertThat(result.getLicensePlate()).isEqualTo("1-ELF-456");
+        assertThat(result.getMembershipLevel()).isEqualTo("SILVER");
+
+        verify(userRepository).save(any(User.class));
     }
 }
