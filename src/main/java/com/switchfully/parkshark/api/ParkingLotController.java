@@ -19,19 +19,19 @@ public class ParkingLotController {
         this.service = parkingLotService;
     }
     //TODO 1 : As a Manager
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ParkingLot createParkingLot(@RequestBody CreateParkingLotDto parkingLot) {
         return service.createParkingLot(parkingLot);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value ="/get-all",produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public List<ParkingLotDto> getAllParkingLots() {
         return service.getAllParkingLots();
     }
 
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/get/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ParkingLot getParkingLotById(@PathVariable Long id) {
         return service.getParkingLot(id);
