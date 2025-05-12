@@ -43,6 +43,7 @@ public class UserRepositoryTest {
 
     private CountryCode countryCode;
     private LicensePlate licensePlate;
+    private PostalCode postalCode;
     private Address address;
     private MembershipLevel membershipLevel;
 
@@ -54,10 +55,9 @@ public class UserRepositoryTest {
                 new LicensePlate("1-ELF-456", countryCode)
         );
 
-        PostalCode postCode = new PostalCode("1040", "Etterbeek");
-        postCode = postalCodeRepository.save(postCode);
+        postalCode = postalCodeRepository.save(new PostalCode("1040", "Etterbeek"));
 
-        address = addressRepository.save(new Address("Avenue des Nerviens", "65", postCode));
+        address = addressRepository.save(new Address("Avenue des Nerviens", "65", postalCode));
 
         membershipLevel = membershipLevelRepository.findById(MembershipType.SILVER)
                 .orElseThrow(() -> new RuntimeException("membership level not found"));
