@@ -23,6 +23,9 @@ public class CreateParkingLotDto {
     private String contact_postalCodeLabel;
 
 
+    private String divisionName;
+
+
     public CreateParkingLotDto() {}
 
     public String getName() {
@@ -151,5 +154,13 @@ public class CreateParkingLotDto {
 
     public void setPostalCodeLabel(String postalCodeLabel) {
         this.postalCodeLabel = postalCodeLabel;
+    }
+
+    public String getDivisionName() {
+        return divisionName;
+    }
+
+    public void setDivisionName(String divisionName) {
+        this.divisionName = divisionName;
     }
 }
