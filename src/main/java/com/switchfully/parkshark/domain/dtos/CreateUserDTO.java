@@ -15,6 +15,9 @@ public class CreateUserDTO {
     @NotBlank
     private String email;
 
+    @NotBlank
+    private String password;
+
     private String telephoneNumber;
     private String mobileNumber;
 
@@ -45,10 +48,11 @@ public class CreateUserDTO {
     public CreateUserDTO() {
     }
 
-    public CreateUserDTO(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, String plateNumber, String membershipLevel, String streetName, String streetNumber, String postalCode, String city, String countryCode, String countryName) {
+    public CreateUserDTO(String firstName, String lastName, String email, String password, String telephoneNumber, String mobileNumber, String plateNumber, String membershipLevel, String streetName, String streetNumber, String postalCode, String city, String countryCode, String countryName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.telephoneNumber = telephoneNumber;
         this.mobileNumber = mobileNumber;
         this.plateNumber = plateNumber;
@@ -71,6 +75,10 @@ public class CreateUserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getTelephoneNumber() {

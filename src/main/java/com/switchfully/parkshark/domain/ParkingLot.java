@@ -34,10 +34,9 @@ public class ParkingLot {
     @JoinColumn(name = "contact_person_id")
     private Contact contact;
 
-    //TODO 2 : Add the division in the domain package as a java class
-//    @ManyToOne
-//    @JoinColumn(name="division_id")
-//    private Contact contact;
+    @ManyToOne
+    @JoinColumn(name="division_id")
+    private Division division;
 
 
     public ParkingLot() {
@@ -103,4 +102,11 @@ public class ParkingLot {
         return contact.getAddress();
     }
 
+    public Division getDivision() {
+        return division;
+    }
+
+    public void setDivision(Division division) {
+        this.division = division;
+    }
 }
