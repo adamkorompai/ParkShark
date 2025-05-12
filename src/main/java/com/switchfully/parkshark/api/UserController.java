@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<MemberOverviewDTO> getUserOverview(@RequestHeader("Authorization") String authHeader) {
+    public List<MemberOverviewDTO> getUserOverview(@RequestHeader   ("Authorization") String authHeader) {
         authenticateManager(authHeader);
         return userService.getAllUsers();
     }
