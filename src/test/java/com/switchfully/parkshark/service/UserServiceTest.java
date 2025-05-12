@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,35 +51,32 @@ public class UserServiceTest {
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private UserMapper userMapper;
-
-    @InjectMocks
     private UserService userService;
-
-    private CountryCode countryCode;
-    private LicensePlate licensePlate;
-    private PostalCode postalCode;
-    private Address address;
-    private MembershipLevel membershipLevel;
-    private User user;
+    private UserMapper userMapper;
 
     @BeforeEach
     void setUp() {
-        countryCode = countryCodeRepository.save(new CountryCode("IT", "Italy"));
-
-        licensePlate = licensePlateRepository.save(
-                new LicensePlate("1-ELF-456", countryCode)
+        userMapper = new UserMapper();
+        userService = new UserService(
+                userRepository,
+                addressRepository,
+                postalCodeRepository,
+                countryCodeRepository,
+                licensePlateRepository,
+                membershipLevelRepository,
+                userMapper
         );
+    }
 
-        postalCode = postalCodeRepository.save(new PostalCode("1040", "Etterbeek"));
+    @Test
+    void whenGetAllMembers_thenReturnsAllUserDTO() {
+        CountryCode countryCode = new CountryCode("IT", "Italy");
+        LicensePlate licensePlate = new LicensePlate("1-ELF-456", countryCode);
+        PostalCode postalCode = new PostalCode("1040", "Etterbeek");
+        Address address = new Address("Avenue des Nerviens", "65", postalCode);
+        MembershipLevel membershipLevel = new MembershipLevel(MembershipType.SILVER, 10, 20, 6);
 
-        address = addressRepository.save(new Address("Avenue des Nerviens", "65", postalCode));
-
-        membershipLevel = membershipLevelRepository.findById(MembershipType.SILVER)
-                .orElseThrow(() -> new RuntimeException("me mbership level not found"));
-
-        user = userRepository.save(new User(
+        User user = new User(
                 "a",
                 "b",
                 "a@b.co",
@@ -88,23 +86,20 @@ public class UserServiceTest {
                 address,
                 licensePlate,
                 membershipLevel
-        ));
-    }
+        );
 
-    @Test
-    void whenGetAllMembers_thenReturnsAllUserDTO() {
+        user.setId(1L);
+
         MemberOverviewDTO memberOverviewDTO = new MemberOverviewDTO();
-        memberOverviewDTO.setId(user.getId());
+        memberOverviewDTO.setId(1L);
         memberOverviewDTO.setFistName("a");
         memberOverviewDTO.setLastName("b");
         memberOverviewDTO.setEmailAddress("a@b.co");
-        memberOverviewDTO.setRegistrationDate(user.getRegistrationDate());
+        memberOverviewDTO.setRegistrationDate(LocalDateTime.now());
 
         when(userRepository.findAll()).thenReturn(List.of(user));
-        when(userMapper.toMemberOverviewDTO(user)).thenReturn(memberOverviewDTO);
 
         List<MemberOverviewDTO> result = userService.getAllUsers();
-        verify(userMapper).toMemberOverviewDTO(user);
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0)).isEqualTo(memberOverviewDTO);
@@ -112,6 +107,26 @@ public class UserServiceTest {
 
     @Test
     void whenGetMemberById_thenReturnsUserDTO() {
+        CountryCode countryCode = new CountryCode("IT", "Italy");
+        LicensePlate licensePlate = new LicensePlate("1-ELF-456", countryCode);
+        PostalCode postalCode = new PostalCode("1040", "Etterbeek");
+        Address address = new Address("Avenue des Nerviens", "65", postalCode);
+        MembershipLevel membershipLevel = new MembershipLevel(MembershipType.SILVER, 10, 20, 6);
+
+        User user = new User(
+                "a",
+                "b",
+                "a@b.co",
+                "password",
+                null,
+                "0478329293",
+                address,
+                licensePlate,
+                membershipLevel
+        );
+
+        user.setId(1L);
+
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setFirstName("a");
@@ -126,8 +141,14 @@ public class UserServiceTest {
 
         when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(user));
 
-        verify(userMapper).toUserDTO(user);
+        UserDTO result = userService.getUserById(user.getId());
 
-
+        assertThat(result).isNotNull();
+        assertThat(result.getFirstName()).isEqualTo("a");
+        assertThat(result.getLastName()).isEqualTo("b");
+        assertThat(result.getEmail()).isEqualTo("a@b.co");
+        assertThat(result.getMobileNumber()).isEqualTo("0478329293");
+        assertThat(result.getLicensePlate()).isEqualTo("1-ELF-456");
+        assertThat(result.getMembershipLevel()).isEqualTo("SILVER");
     }
 }

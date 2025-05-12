@@ -1,6 +1,7 @@
 package com.switchfully.parkshark.domain.dtos;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class MemberOverviewDTO {
 
@@ -66,5 +67,17 @@ public class MemberOverviewDTO {
 
     public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MemberOverviewDTO that = (MemberOverviewDTO) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
