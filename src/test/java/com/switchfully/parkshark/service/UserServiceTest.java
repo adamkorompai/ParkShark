@@ -3,6 +3,7 @@ package com.switchfully.parkshark.service;
 import com.switchfully.parkshark.domain.Address;
 import com.switchfully.parkshark.domain.PostalCode;
 import com.switchfully.parkshark.domain.dtos.MemberOverviewDTO;
+import com.switchfully.parkshark.domain.dtos.UserDTO;
 import com.switchfully.parkshark.domain.license_plate.CountryCode;
 import com.switchfully.parkshark.domain.license_plate.LicensePlate;
 import com.switchfully.parkshark.domain.membership.MembershipLevel;
@@ -23,6 +24,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -108,5 +111,23 @@ public class UserServiceTest {
     }
 
     @Test
-    void whenGetMemberById_thenReturnsUserDTO() {}
+    void whenGetMemberById_thenReturnsUserDTO() {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setFirstName("a");
+        dto.setLastName("b");
+        dto.setEmail("a@b.co");
+        dto.setTelephoneNumber(null);
+        dto.setMobileNumber("0478329293");
+        dto.setRegistrationDate(user.getRegistrationDate().toString());
+        dto.setLicensePlate("1-ELF-456");
+        dto.setMembershipLevel("SILVER");
+
+
+        when(userRepository.findById(user.getId())).thenReturn(Optional.ofNullable(user));
+
+        verify(userMapper).toUserDTO(user);
+
+
+    }
 }
