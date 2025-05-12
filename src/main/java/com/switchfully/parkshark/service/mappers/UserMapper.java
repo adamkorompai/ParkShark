@@ -35,6 +35,7 @@ public class UserMapper {
                 dto.getFirstName(),
                 dto.getLastName(),
                 dto.getEmail(),
+                dto.getPassword(),
                 dto.getTelephoneNumber(),
                 dto.getMobileNumber(),
                 address,

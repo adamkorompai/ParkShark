@@ -1,5 +1,2 @@
 ALTER TABLE users
-ADD COLUMN password VARCHAR(255) NOT NULL;
-
-UPDATE users
-SET password = 'password';
+    ADD COLUMN password VARCHAR(50) NOT NULL DEFAULT 'password';

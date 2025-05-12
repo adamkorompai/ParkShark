@@ -27,6 +27,7 @@ public class User {
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
+    @Column(name = "password", nullable = false, length = 50)
     private String password;
 
     @Column(name = "telephone_number", length = 50)
@@ -57,11 +58,12 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, Address address, LicensePlate licensePlate, MembershipLevel membershipLevel) {
+    public User(String firstName, String lastName, String email, String password, String telephoneNumber, String mobileNumber, Address address, LicensePlate licensePlate, MembershipLevel membershipLevel) {
         this.role = UserRole.MEMBER;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.telephoneNumber = telephoneNumber;
         this.mobileNumber = mobileNumber;
         this.registrationDate = LocalDateTime.now();
