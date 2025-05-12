@@ -69,9 +69,9 @@ public class UserRepositoryTest {
                 "a",
                 "b",
                 "a@b.co",
+                "password",
                 null,
                 "0478329293",
-                "password",
                 address,
                 licensePlate,
                 membershipLevel
@@ -80,6 +80,30 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         User found = userRepository.findById(user.getId()).orElseThrow();
+
+        assertThat(found.getFirstName()).isEqualTo("a");
+        assertThat(found.getAddress().getStreetName()).isEqualTo("Avenue des Nerviens");
+        assertThat(found.getLicensePlate().getPlateNumber()).isEqualTo("1-ELF-456");
+        assertThat(found.getMembershipLevel().getName().name()).isEqualTo("SILVER");
+    }
+
+    @Test
+    void givenUser_whenFindByEmail_thenUserIsFound() {
+        User user = new User(
+                "a",
+                "b",
+                "a@b.co",
+                "password",
+                null,
+                "0478329293",
+                address,
+                licensePlate,
+                membershipLevel
+        );
+
+        userRepository.save(user);
+
+        User found = userRepository.findByEmail(user.getEmail()).orElseThrow();
 
         assertThat(found.getFirstName()).isEqualTo("a");
         assertThat(found.getAddress().getStreetName()).isEqualTo("Avenue des Nerviens");
