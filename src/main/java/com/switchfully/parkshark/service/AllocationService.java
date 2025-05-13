@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,5 +112,26 @@ public class AllocationService {
 
     public List<AllocationDto> getAllAllocations() {
         return allocationRepository.findAll().stream().map(allocationMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<AllocationDto> getFilteredAllocations(String status, String order, int limit) {
+        List<Allocation> allocations;
+
+        switch (status) {
+            case "ACTIVE" -> allocations = allocationRepository.findByStatus(AllocationStatus.ACTIVE);
+            case "FINISHED" -> allocations = allocationRepository.findByStatus(AllocationStatus.FINISHED);
+            case "ALL" -> allocations = allocationRepository.findAll();
+            default -> throw new IllegalArgumentException("Invalid status: " + status);
+        }
+
+        Comparator<Allocation> comparator = Comparator.comparing(Allocation::getStartTime);
+        if (order.equals("DESC")) {
+            comparator = comparator.reversed();
+        }
+        return allocations.stream()
+                .sorted(comparator)
+                .limit(limit)
+                .map(allocationMapper::toDto)
+                .toList();
     }
 }

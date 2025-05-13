@@ -39,8 +39,11 @@ public class AllocationController {
 
     @GetMapping(produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<AllocationDto> getAllAllocations() {
-        return allocationService.getAllAllocations();
-    }
+    public List<AllocationDto> getAllAllocations(
+            @RequestParam(defaultValue = "ALL") String status,
+            @RequestParam(defaultValue = "ASC") String order,
+            @RequestParam(defaultValue = "20") int limit) {
 
+        return allocationService.getFilteredAllocations(status.toUpperCase(), order.toUpperCase(), limit);
+    }
 }
