@@ -179,4 +179,20 @@ public class ParkingLotService {
         );
 
     }
+
+    public void decreaseCapacityByOne(long id) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(null);
+        if (parkingLot == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The parking lot does not exist");
+        }
+        parkingLot.allocateOne();
+    }
+
+    public void increaseCapacityByOne(long id) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(null);
+        if (parkingLot == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The parking lot does not exist");
+        }
+        parkingLot.deallocateOne();
+    }
 }
