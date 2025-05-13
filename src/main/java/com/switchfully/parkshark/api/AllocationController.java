@@ -7,7 +7,10 @@ import com.switchfully.parkshark.service.AllocationService;
 import com.switchfully.parkshark.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/allocations")
@@ -28,9 +31,16 @@ public class AllocationController {
         return allocationService.createAllocation(createAllocationDto);
     }
 
-    @PutMapping(path = "{id}", consumes = "application/json", produces = "application/json")
+    @PutMapping(path = "{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public AllocationDto updateAllocation(@PathVariable Long id) {
         return allocationService.stopAllocation(id);
     }
+
+    @GetMapping(produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<AllocationDto> getAllAllocations() {
+        return allocationService.getAllAllocations();
+    }
+
 }

@@ -16,23 +16,15 @@ public class AllocationMapper {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public AllocationDto toDto(Allocation allocation) {
-        AllocationDto allocationDto = new AllocationDto(
+        return new AllocationDto(
                 allocation.getId(),
                 allocation.getUser().getId(),
                 allocation.getParkingLot().getId(),
                 allocation.getLicensePlate().getPlateNumber(),
                 allocation.getStatus().toString(),
-                allocation.getStartTime(),
-                allocation.getEndTime()
+                allocation.getEndTime() != null ? allocation.getEndTime().format(FORMATTER) : null,
+                allocation.getStartTime().format(FORMATTER)
         );
-//        allocationDto.setId(allocation.getId());
-//        allocationDto.setUserId(allocation.getUser().getId());
-//        allocationDto.setParkingLotId(allocation.getParkingLot().getId());
-//        allocationDto.setLicensePlate(allocation.getLicensePlate().getPlateNumber());
-//        allocationDto.setStatus(allocation.getStatus().toString());
-//        allocationDto.setStartTime(allocation.getStartTime());
-//        allocationDto.setEndTime(allocation.getEndTime());
-        return allocationDto;
     }
 
     public Allocation fromDto(User user, ParkingLot parkingLot, LicensePlate licensePlate) {

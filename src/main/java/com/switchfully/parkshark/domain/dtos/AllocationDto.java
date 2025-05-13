@@ -10,12 +10,12 @@ public class AllocationDto {
     private Long parkingLotId;
     private String licensePlate;
     private String status;
-    private LocalDateTime endTime;
-    private LocalDateTime startTime;
+    private String endTime;
+    private String startTime;
 
     public AllocationDto() {}
 
-    public AllocationDto(Long id, Long userId, Long parkingLotId, String licensePlate, String status, LocalDateTime endTime, LocalDateTime startTime) {
+    public AllocationDto(Long id, Long userId, Long parkingLotId, String licensePlate, String status, String endTime, String startTime) {
         this.id = id;
         this.userId = userId;
         this.parkingLotId = parkingLotId;
@@ -45,11 +45,11 @@ public class AllocationDto {
         return status;
     }
 
-    public LocalDateTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public LocalDateTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
@@ -73,11 +73,11 @@ public class AllocationDto {
         this.status = status;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 }

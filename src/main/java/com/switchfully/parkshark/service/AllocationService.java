@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.yaml.snakeyaml.tokens.Token.ID.Value;
 
@@ -105,5 +107,9 @@ public class AllocationService {
 
     private boolean checkAllocationStatus(AllocationStatus allocationStatus) {
         return allocationStatus.toString().equals(AllocationStatus.ACTIVE.toString());
+    }
+
+    public List<AllocationDto> getAllAllocations() {
+        return allocationRepository.findAll().stream().map(allocationMapper::toDto).collect(Collectors.toList());
     }
 }
