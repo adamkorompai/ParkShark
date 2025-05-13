@@ -1,6 +1,7 @@
 package com.switchfully.parkshark.service;
 
 import com.switchfully.parkshark.domain.Allocation;
+import com.switchfully.parkshark.domain.AllocationStatus;
 import com.switchfully.parkshark.domain.ParkingLot;
 import com.switchfully.parkshark.domain.dtos.AllocationDto;
 import com.switchfully.parkshark.domain.dtos.CreateAllocationDto;
@@ -19,6 +20,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDateTime;
+
+import static org.yaml.snakeyaml.tokens.Token.ID.Value;
 
 @Service
 @Transactional
@@ -81,5 +86,24 @@ public class AllocationService {
 
     private boolean checkParkingLotCapacity(ParkingLot parkingLot) {
         return parkingLot.getCapacity() > 0;
+    }
+
+    public AllocationDto stopAllocation(Long id) {
+        Allocation allocation = allocationRepository.findById(id).orElse(null);
+        if (allocation == null) {
+            throw new EntityNotFoundException("Allocation with id " + id + " not found");
+        }
+        if (!checkAllocationStatus(allocation.getStatus())) {
+            return null;
+        }
+        allocation.setStatus(AllocationStatus.FINISHED);
+        allocation.setEndTime(LocalDateTime.now());
+        parkingLotService.decreaseCapacityByOne(allocation.getParkingLot().getId());
+        allocationRepository.save(allocation);
+        return allocationMapper.toDto(allocation);
+    }
+
+    private boolean checkAllocationStatus(AllocationStatus allocationStatus) {
+        return allocationStatus.toString().equals(AllocationStatus.ACTIVE.toString());
     }
 }

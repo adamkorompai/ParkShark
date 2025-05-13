@@ -27,4 +27,10 @@ public class AllocationController {
     public AllocationDto createAllocation(@RequestBody CreateAllocationDto createAllocationDto) {
         return allocationService.createAllocation(createAllocationDto);
     }
+
+    @PutMapping(path = "{id}", consumes = "application/json", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public AllocationDto updateAllocation(@PathVariable Long id) {
+        return allocationService.stopAllocation(id);
+    }
 }

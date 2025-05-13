@@ -41,7 +41,7 @@ public class AllocationDto {
         return licensePlate;
     }
 
-    public String isStatus() {
+    public String getStatus() {
         return status;
     }
 
