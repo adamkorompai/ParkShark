@@ -59,6 +59,14 @@ public class UserRepositoryTest {
 
         address = addressRepository.save(new Address("Avenue des Nerviens", "65", postalCode));
 
+        membershipLevelRepository.saveAll(
+                java.util.List.of(
+                        new MembershipLevel(MembershipType.BRONZE, 0, 0, 4),
+                        new MembershipLevel(MembershipType.SILVER, 10, 20, 6),
+                        new MembershipLevel(MembershipType.GOLD, 40, 30, 24)
+                )
+        );
+
         membershipLevel = membershipLevelRepository.findById(MembershipType.SILVER)
                 .orElseThrow(() -> new RuntimeException("membership level not found"));
     }
