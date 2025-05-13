@@ -38,7 +38,6 @@ public class ParkingLot {
     @JoinColumn(name="division_id")
     private Division division;
 
-
     public ParkingLot() {
     }
 
@@ -108,5 +107,13 @@ public class ParkingLot {
 
     public void setDivision(Division division) {
         this.division = division;
+    }
+
+    public void allocateOne() {
+        this.capacity--;
+    }
+
+    public void deallocateOne() {
+        this.capacity++;
     }
 }
