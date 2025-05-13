@@ -43,6 +43,7 @@ public class UserRepositoryTest {
 
     private CountryCode countryCode;
     private LicensePlate licensePlate;
+    private PostalCode postalCode;
     private Address address;
     private MembershipLevel membershipLevel;
 
@@ -54,10 +55,9 @@ public class UserRepositoryTest {
                 new LicensePlate("1-ELF-456", countryCode)
         );
 
-        PostalCode postCode = new PostalCode("1040", "Etterbeek");
-        postCode = postalCodeRepository.save(postCode);
+        postalCode = postalCodeRepository.save(new PostalCode("1040", "Etterbeek"));
 
-        address = addressRepository.save(new Address("Avenue des Nerviens", "65", postCode));
+        address = addressRepository.save(new Address("Avenue des Nerviens", "65", postalCode));
 
         membershipLevel = membershipLevelRepository.findById(MembershipType.SILVER)
                 .orElseThrow(() -> new RuntimeException("membership level not found"));
@@ -69,6 +69,7 @@ public class UserRepositoryTest {
                 "a",
                 "b",
                 "a@b.co",
+                "password",
                 null,
                 "0478329293",
                 address,
@@ -79,6 +80,30 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         User found = userRepository.findById(user.getId()).orElseThrow();
+
+        assertThat(found.getFirstName()).isEqualTo("a");
+        assertThat(found.getAddress().getStreetName()).isEqualTo("Avenue des Nerviens");
+        assertThat(found.getLicensePlate().getPlateNumber()).isEqualTo("1-ELF-456");
+        assertThat(found.getMembershipLevel().getName().name()).isEqualTo("SILVER");
+    }
+
+    @Test
+    void givenUser_whenFindByEmail_thenUserIsFound() {
+        User user = new User(
+                "a",
+                "b",
+                "a@b.co",
+                "password",
+                null,
+                "0478329293",
+                address,
+                licensePlate,
+                membershipLevel
+        );
+
+        userRepository.save(user);
+
+        User found = userRepository.findByEmail(user.getEmail()).orElseThrow();
 
         assertThat(found.getFirstName()).isEqualTo("a");
         assertThat(found.getAddress().getStreetName()).isEqualTo("Avenue des Nerviens");

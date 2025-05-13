@@ -20,6 +20,9 @@ public class UserDTO {
 
     private String membershipLevel;
 
+    public UserDTO() {
+    }
+
     public UserDTO(Long id, String firstName, String lastName, String email, String telephoneNumber, String mobileNumber, String registrationDate, String licensePlate, String membershipLevel) {
         this.id = id;
         this.firstName = firstName;
@@ -66,5 +69,41 @@ public class UserDTO {
 
     public String getMembershipLevel() {
         return membershipLevel;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public void setRegistrationDate(String registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public void setLicensePlate(String licensePlate) {
+        this.licensePlate = licensePlate;
+    }
+
+    public void setMembershipLevel(String membershipLevel) {
+        this.membershipLevel = membershipLevel;
     }
 }

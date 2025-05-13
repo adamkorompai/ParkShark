@@ -120,6 +120,10 @@ public class User {
         return membershipLevel;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "User " + id + " " + firstName + " " + lastName + " " + email;
