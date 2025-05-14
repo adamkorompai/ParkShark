@@ -42,6 +42,11 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
+    //Only for test
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

@@ -84,7 +84,7 @@ public class UserService {
     }
 
     private Address registerAddress(CreateUserDTO dto) {
-        PostalCode postalCode = postalCodeRepository.getPostalCodeByCode(dto.getPostalCode())
+        PostalCode postalCode = postalCodeRepository.getPostalByCode(dto.getPostalCode())
                 .orElseGet(() -> postalCodeRepository.save(new PostalCode(dto.getPostalCode(), dto.getCity())));
 
         Address address = new Address(dto.getStreetName(), dto.getStreetNumber(), postalCode);

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface PostalCodeRepository extends JpaRepository<PostalCode, Long> {
     Optional<PostalCode> getPostalCodeByLabel(String label);
-    Optional<PostalCode> getPostalCodeByCode(String code);
+    Optional<PostalCode> getPostalByCode(String code);
 }

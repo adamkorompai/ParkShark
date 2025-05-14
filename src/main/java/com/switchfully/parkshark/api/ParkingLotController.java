@@ -14,11 +14,11 @@ import java.util.List;
 @RequestMapping(name = "/parking-lot")
 public class ParkingLotController {
 
-    private final ParkingLotService service;
+    protected ParkingLotService service;
     public ParkingLotController(ParkingLotService parkingLotService) {
         this.service = parkingLotService;
     }
-    //TODO 1 : As a Manager
+
     @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ParkingLot createParkingLot(@RequestBody CreateParkingLotDto parkingLot) {

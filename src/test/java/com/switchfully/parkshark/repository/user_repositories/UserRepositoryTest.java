@@ -69,6 +69,7 @@ public class UserRepositoryTest {
                 "a",
                 "b",
                 "a@b.co",
+                "password",
                 null,
                 "0478329293",
                 address,

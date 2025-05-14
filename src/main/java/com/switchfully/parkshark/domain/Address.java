@@ -2,6 +2,8 @@ package com.switchfully.parkshark.domain;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "address")
 public class Address {
@@ -57,4 +59,12 @@ public class Address {
     public void setPostalCode(PostalCode postalCode) {
         this.postalCode = postalCode;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(id, address.id) && Objects.equals(streetName, address.streetName) && Objects.equals(streetNumber, address.streetNumber) && Objects.equals(postalCode, address.postalCode);
+    }
+
 }
