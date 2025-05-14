@@ -173,7 +173,7 @@ public class UserServiceTest {
         );
 
         PostalCode postalCode = new PostalCode("1040", "Brussels");
-        when(postalCodeRepository.getPostalCodeByCode("1040")).thenReturn(Optional.of(postalCode));
+        when(postalCodeRepository.getPostalByCode("1040")).thenReturn(Optional.of(postalCode));
 
         CountryCode countryCode = new CountryCode("BE", "Belgium");
         when(countryCodeRepository.findByCode("BE")).thenReturn(Optional.of(countryCode));

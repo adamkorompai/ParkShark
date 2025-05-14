@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(name = "/parking-lot")
 public class ParkingLotController {
 
-    private final ParkingLotService service;
+    protected ParkingLotService service;
     private final AuthenticationService authenticationService;
 
     public ParkingLotController(ParkingLotService parkingLotService, AuthenticationService authenticationService) {

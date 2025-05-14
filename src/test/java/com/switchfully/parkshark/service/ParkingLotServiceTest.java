@@ -358,6 +358,7 @@ public class ParkingLotServiceTest {
         Contact con = createAContact();
         createParkingLotDto.setDivisionName(div.getName());
         createParkingLotDto.setContact_email(con.getEmail());
+        createParkingLotDto.setStreetNumber("30A");
         Mockito.when(divisionRepository.findByName(div.getName())).thenReturn(Optional.of(div));
         Mockito.when(contactRepository.getContactByEmail(con.getEmail())).thenReturn(Optional.empty());
         parkingLotService.createParkingLot(createParkingLotDto);

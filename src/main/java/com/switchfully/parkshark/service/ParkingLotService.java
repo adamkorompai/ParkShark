@@ -89,6 +89,13 @@ public class ParkingLotService {
         if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name is required");
         }
+        if (dto.getCategory() == null)  {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category is required");
+        }
+        if(dto.getDivisionName() == null || dto.getDivisionName().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Division name is required");
+        }
+
 
         if (dto.getCapacity() <= 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The capacity cannot be negative or zero");
@@ -114,10 +121,8 @@ public class ParkingLotService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The contact name is required");
         }
 
-        if ((dto.getContact_phoneNumber() == null || dto.getContact_phoneNumber().isEmpty()) &&
-                (dto.getContact_telNumber() != null && !dto.getContact_telNumber().isEmpty()) ||
-                (dto.getContact_telNumber() == null || dto.getContact_telNumber().isEmpty()) &&
-                        (dto.getContact_phoneNumber() != null && !dto.getContact_phoneNumber().isEmpty())) {
+        if ((dto.getContact_phoneNumber() == null || dto.getContact_phoneNumber().isEmpty()) ||
+                (dto.getContact_telNumber() == null || dto.getContact_telNumber().isEmpty()) ) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The contact mobile phone number or the contact fix phone is required");
         }
 
@@ -133,6 +138,9 @@ public class ParkingLotService {
 
         if (dto.getContact_streetNumber() == null || dto.getContact_streetNumber().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The contact street number is required");
+        }
+        if(!dto.getStreetNumber().matches("^(?!-)\\d+[a-zA-Z]*$")){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The street number must be a positive number");
         }
 
         if (dto.getContact_postalCode() == null || dto.getContact_postalCode().isEmpty()) {
@@ -153,7 +161,7 @@ public class ParkingLotService {
 
     //Todo : Ajouter une erreur au cas ou le save ne se fait pas
     private PostalCode checkPostalCodeOrCreate(String postalCode, String postalCodeLabel) {
-        return postalCodeRepository.getPostalCodeByCode(postalCode).orElseGet(
+        return postalCodeRepository.getPostalByCode(postalCode).orElseGet(
                 () -> {
                     PostalCode postalCodeObj = new PostalCode();
                     postalCodeObj.setLabel(postalCodeLabel);
@@ -164,7 +172,7 @@ public class ParkingLotService {
         );
     }
 
-    private Address checkAddressOrCreate(String streetName, String streetNumber, String postalCode, String postalCodeLabel) {
+    protected Address checkAddressOrCreate(String streetName, String streetNumber, String postalCode, String postalCodeLabel) {
 
         PostalCode postal = checkPostalCodeOrCreate(postalCode, postalCodeLabel);
 
