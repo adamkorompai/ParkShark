@@ -1,7 +1,6 @@
 package com.switchfully.parkshark.domain.dtos;
 
-import com.switchfully.parkshark.domain.AllocationStatus;
-
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class AllocationDto {
@@ -12,6 +11,7 @@ public class AllocationDto {
     private String status;
     private String endTime;
     private String startTime;
+//    private String duration;
 
     public AllocationDto() {}
 
@@ -23,6 +23,12 @@ public class AllocationDto {
         this.status = status;
         this.endTime = endTime;
         this.startTime = startTime;
+
+//        LocalDateTime parsedStart = LocalDateTime.parse(startTime);
+//        LocalDateTime parsedEnd = (endTime != null) ? LocalDateTime.parse(endTime) : LocalDateTime.now();
+//
+//        Duration duration = Duration.between(parsedStart, parsedEnd);
+//        this.duration = String.format("%02d:%02d:%02d", duration.toHours(), duration.toMinutesPart(), duration.toSecondsPart());
     }
 
     public Long getId() {

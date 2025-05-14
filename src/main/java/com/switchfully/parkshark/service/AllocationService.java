@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.yaml.snakeyaml.tokens.Token.ID.Value;
 
@@ -114,7 +115,7 @@ public class AllocationService {
         return allocationRepository.findAll().stream().map(allocationMapper::toDto).collect(Collectors.toList());
     }
 
-    public List<AllocationDto> getFilteredAllocations(String status, String order, int limit) {
+    public List<AllocationDto> getFilteredAllocations(String status, String order, int limit, Long userId, Long parkingLotId) {
         List<Allocation> allocations;
 
         switch (status) {
@@ -124,11 +125,24 @@ public class AllocationService {
             default -> throw new IllegalArgumentException("Invalid status: " + status);
         }
 
+        Stream<Allocation> allocationStream = allocations.stream();
+
+        if (userId != null) {
+            allocationStream = allocationStream.filter(allocation ->
+                    allocation.getUser().getId().equals(userId));
+        }
+
+        if (parkingLotId != null) {
+            allocationStream = allocationStream.filter(allocation ->
+                    allocation.getParkingLot().getId().equals(parkingLotId));
+        }
+
+
         Comparator<Allocation> comparator = Comparator.comparing(Allocation::getStartTime);
         if (order.equals("DESC")) {
             comparator = comparator.reversed();
         }
-        return allocations.stream()
+        return allocationStream
                 .sorted(comparator)
                 .limit(limit)
                 .map(allocationMapper::toDto)
