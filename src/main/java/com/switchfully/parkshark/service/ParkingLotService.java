@@ -8,13 +8,15 @@ import com.switchfully.parkshark.service.mappers.ParkingLotMappers;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @Service
@@ -40,40 +42,29 @@ public class ParkingLotService {
 
     public ParkingLot createParkingLot(CreateParkingLotDto dto) {
 
-        System.out.println("Creating parking lot");
-
         parkingLotCreationValidation(dto);
-
-        System.out.println("Parking lot created after validation");
-
-
-
 
         Division division = divisionRepository.findByName(dto.getDivisionName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Division not found"));
 
-        System.out.println("Checking if division exists");
         ParkingLot parkingLot = new ParkingLot();
         parkingLot.setDivision(division);
         parkingLot.setName(dto.getName());
         parkingLot.setCapacity(dto.getCapacity());
         parkingLot.setCategory(dto.getCategory());
         parkingLot.setPricePerHour(dto.getPricePerHour());
-        System.out.println("Parking lot created");
-        System.out.println(contactRepository.getContactByEmail(dto.getContact_email()).isPresent());
         contactRepository.getContactByEmail(dto.getContact_email()).ifPresentOrElse(
                 parkingLot::setContact,
                 () -> {
                     Contact obj = new Contact();
                     obj.setEmail(dto.getContact_email());
                     obj.setName(dto.getContact_name());
-                    obj.setPhoneNumber(removeSpaces(dto.getContact_phoneNumber()));
-                    obj.setTelephoneNumber(removeSpaces(dto.getContact_telNumber()));
+                    obj.setPhoneNumber(dto.getContact_phoneNumber());
+                    obj.setTelephoneNumber(dto.getContact_telNumber());
                     obj.setAddress(checkAddressOrCreate(dto.getContact_streetName(), dto.getContact_streetName(), dto.getContact_postalCode(), dto.getContact_postalCodeLabel()));
                     contactRepository.save(obj);
                     parkingLot.setContact(obj);
                 }
         );
-        System.out.println("Contact created");
         parkingLot.setAddress(checkAddressOrCreate(dto.getStreetName(), dto.getStreetNumber(), dto.getPostalCode(), dto.getContact_postalCodeLabel()));
 
         return parkingLotRepository.save(parkingLot);
@@ -94,21 +85,7 @@ public class ParkingLotService {
         ).toList();
     }
 
-    private String removeSpaces(String str) {
-        return str.replaceAll("\\s+", " ");
-    }
-
     private void parkingLotCreationValidation(CreateParkingLotDto dto) {
-        if(dto.getDivisionName() == null || dto.getDivisionName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Division name is required");
-        }
-        if(dto.getCategory() == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category is required");
-        }
-        if(!isInCategories(dto.getCategory())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category does not exists");
-        }
-
         if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name is required");
         }
@@ -129,10 +106,6 @@ public class ParkingLotService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The street number is required");
         }
 
-        if(dto.getStreetNumber().matches("-\\d*")){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The street number must be a positive number");
-        }
-
         if (dto.getPostalCode() == null || dto.getPostalCode().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The postal code is required");
         }
@@ -141,8 +114,10 @@ public class ParkingLotService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The contact name is required");
         }
 
-        if ((dto.getContact_phoneNumber() == null || dto.getContact_phoneNumber().isEmpty()) ||
-                (dto.getContact_telNumber() == null || dto.getContact_telNumber().isEmpty()) ) {
+        if ((dto.getContact_phoneNumber() == null || dto.getContact_phoneNumber().isEmpty()) &&
+                (dto.getContact_telNumber() != null && !dto.getContact_telNumber().isEmpty()) ||
+                (dto.getContact_telNumber() == null || dto.getContact_telNumber().isEmpty()) &&
+                        (dto.getContact_phoneNumber() != null && !dto.getContact_phoneNumber().isEmpty())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The contact mobile phone number or the contact fix phone is required");
         }
 
@@ -167,10 +142,6 @@ public class ParkingLotService {
 
     }
 
-    private boolean isInCategories(ParkingCategory category) {
-        return Arrays.stream(ParkingCategory.values()).anyMatch(c -> c == category);
-    }
-
     private void emailFormatValidation(String contactEmail) {
 
         String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$";
@@ -181,9 +152,8 @@ public class ParkingLotService {
     }
 
     //Todo : Ajouter une erreur au cas ou le save ne se fait pas
-    protected PostalCode checkPostalCodeOrCreate(String postalCode, String postalCodeLabel) {
-        postalCodeRepository.getPostalByCode(postalCode).stream().forEach(System.out::println);
-        return postalCodeRepository.getPostalByCode(postalCode).orElseGet(
+    private PostalCode checkPostalCodeOrCreate(String postalCode, String postalCodeLabel) {
+        return postalCodeRepository.getPostalCodeByCode(postalCode).orElseGet(
                 () -> {
                     PostalCode postalCodeObj = new PostalCode();
                     postalCodeObj.setLabel(postalCodeLabel);
@@ -194,8 +164,8 @@ public class ParkingLotService {
         );
     }
 
-    protected Address checkAddressOrCreate(String streetName, String streetNumber, String postalCode, String postalCodeLabel) {
-        System.out.println("From checkAddressOrCreate beginning");
+    private Address checkAddressOrCreate(String streetName, String streetNumber, String postalCode, String postalCodeLabel) {
+
         PostalCode postal = checkPostalCodeOrCreate(postalCode, postalCodeLabel);
 
         return addressRepository.getAddressesByStreetNameAndStreetNumberAndPostalCode(streetName, streetNumber, postal).orElseGet(
@@ -204,11 +174,25 @@ public class ParkingLotService {
                     addressObj.setPostalCode(postal);
                     addressObj.setStreetName(streetName);
                     addressObj.setStreetNumber(streetNumber);
-                    System.out.println("does it fire");
                     return addressRepository.save(addressObj);
                 }
         );
 
     }
 
+    public void decreaseCapacityByOne(long id) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(null);
+        if (parkingLot == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The parking lot does not exist");
+        }
+        parkingLot.allocateOne();
+    }
+
+    public void increaseCapacityByOne(long id) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(null);
+        if (parkingLot == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The parking lot does not exist");
+        }
+        parkingLot.deallocateOne();
+    }
 }
