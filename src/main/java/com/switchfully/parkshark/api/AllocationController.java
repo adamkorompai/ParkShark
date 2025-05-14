@@ -46,10 +46,12 @@ public class AllocationController {
             @RequestParam(defaultValue = "ALL") String status,
             @RequestParam(defaultValue = "ASC") String order,
             @RequestParam(defaultValue = "20") int limit,
+            @RequestParam(required = false) Long userId,
+            @RequestParam(required = false) Long parkingLotId,
             @RequestHeader("Authorization") String authHeader) {
 
         authenticateManager(authHeader);
-        return allocationService.getFilteredAllocations(status.toUpperCase(), order.toUpperCase(), limit);
+        return allocationService.getFilteredAllocations(status.toUpperCase(), order.toUpperCase(), limit, userId, parkingLotId);
     }
 
     private void authenticateManager(String authHeader) {
