@@ -1,0 +1,5 @@
+ALTER TABLE allocation
+ALTER COLUMN start_time TYPE TIMESTAMP;
+
+ALTER TABLE allocation
+ALTER COLUMN end_time TYPE TIMESTAMP;
